@@ -1,4 +1,4 @@
-'''Main file of project'''
+"""Main file of project."""
 
 import asyncio
 import logging
@@ -15,10 +15,9 @@ load_dotenv()
 
 
 async def main():
-    '''
-    This function start over app
-    :return:
-    '''
+    """
+    This function started over app.
+    """
     bot = Bot(token=getenv('BOT_TOKEN'), parse_mode=ParseMode.HTML)
     dp = Dispatcher(storage=MemoryStorage())
     dp.include_router(router)
