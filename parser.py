@@ -1,13 +1,14 @@
-from seleniumwire import webdriver
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.common.by import By
-import os
-from os import getenv
-from dotenv import load_dotenv
-
 import json
 import time
+from os import getenv
+
+from dotenv import load_dotenv
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+from seleniumwire import webdriver
+
+import config
 
 load_dotenv()
 
@@ -15,9 +16,9 @@ options = Options()
 options.add_experimental_option('excludeSwitches', ['enable-logging'])
 driver = webdriver.Chrome(options=options)
 
-driver.get('https://lks.siriusuniversity.ru/schedule/groups')
+driver.get(config.main_url)
 
-s_search = driver.find_element(By.XPATH, '/html/body/div[2]/div/div/div[2]/div/form/div[4]/input')
+s_search = driver.find_element(By.XPATH, config.login_str)
 s_search.clear()
 s_search.send_keys(getenv("login"))
 
