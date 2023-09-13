@@ -40,13 +40,19 @@ async def async_req_to_schedule() -> None:
         # TODO Сделать проверку записи файла
 
         # Запросы и кеширование к прогерам и инфбезникам
-        with open(config.progs_file, 'w') as file:
-            # Записываем результат запроса в файл
-            file.write(parser.gen_schedule(config.prog_login, config.prog_password))
-        with open(config.infsec_file, 'w') as file:
-            # Записываем результат запроса в файл
-            file.write(parser.gen_schedule(config.infsec_login, config.infsec_password))
-        print("Вроде как все файлы записаны")
+        try:
+            with open(config.progs_file, 'w') as file:
+                # Записываем результат запроса в файл
+                file.write(parser.gen_schedule(config.prog_login, config.prog_password))
+        except:
+            print("Вход в аккаунт прогера не выполнен")
+        try:
+            with open(config.infsec_file, 'w') as file:
+                # Записываем результат запроса в файл
+                file.write(parser.gen_schedule(config.infsec_login, config.infsec_password))
+        except:
+            print("Вход в аккаунт инфобеза не выполнен")
+        print("Данные получены")
         # Пауза на 1 час (3600 секунд)
         await asyncio.sleep(3600)
 

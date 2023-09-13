@@ -49,24 +49,28 @@ def gen_schedule(login: str, password: str) -> str:
         post_data = last_post_request.body.decode('utf-8')  # Раскодируйте данные POST-запроса, если это текст
         json_object = json.loads(post_data)
 
+        # Цикл дней недели
         for i in range(len(config.days_of_week)):
+            # Разграничитель сообщения
             if i != config.days_of_week[0] or config.days_of_week[6]:
                 req += '---------------------------------------------------------------\n'
             req += config.days_of_week[i] + '\n'
+            # Цикл пар
             for j in range(config.max_lessons):
                 try:
+                    # Преподаватель
                     prep = json_object['serverMemo']['data']['events'][f'{j}_{i}'][0]['teachers']
+                    # Пара
                     para = json_object['serverMemo']['data']['events'][f'{j}_{i}'][0]
+                    # Полезные данные
                     req += f"{j + 1}:{para['startTime']}-{para['endTime']}" + \
                            f" {para['discipline']}({para['groupType']}): {para['classroom']}" + \
                            f" - {prep[list(prep.keys())[0]]['last_name']}" + \
                            f" {prep[list(prep.keys())[0]]['first_name']}" + \
                            f" {prep[list(prep.keys())[0]]['middle_name']}\n"
                 except:
+                    # Отсутствие пары
                     req += f'{j + 1}:\n'
-
-        # with open('class.json', 'w', encoding='utf-8') as f:
-        #     json.dump(json_object, f, indent=2)
 
     else:
         req += 'POST-запросы не были обнаружены.'
