@@ -1,8 +1,6 @@
 import json
 import time
-from os import getenv
 
-from dotenv import load_dotenv
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
@@ -10,10 +8,22 @@ from seleniumwire import webdriver
 
 import config
 
-load_dotenv()
 
+def gen_schedule(login: str, password: str) -> str:
+    # TODO Сделать рейзы ошибок
+    # TODO Сделать обработку ошибок
+    # TODO Сделать логирование ошибок в файл
+    # Виталик пипинка
+    """
+    This function sends a request to the site, depending on the input data the request may vary.
 
-def gen_schedule():
+    Parameters:
+    - login string login for account.
+    - password string password for account.
+
+     Returns:
+    - str: actual schedule.
+    """
     req = ""
     options = Options()
     options.add_experimental_option('excludeSwitches', ['enable-logging'])
@@ -23,11 +33,11 @@ def gen_schedule():
 
     s_search = driver.find_element(By.XPATH, config.login_str)
     s_search.clear()
-    s_search.send_keys(getenv('login'))
+    s_search.send_keys(login)
 
     s_search = driver.find_element(By.XPATH, config.password_str)
     s_search.clear()
-    s_search.send_keys(getenv('password'))
+    s_search.send_keys(password)
 
     s_search.send_keys(Keys.ENTER)
     time.sleep(1)
@@ -59,6 +69,6 @@ def gen_schedule():
         #     json.dump(json_object, f, indent=2)
 
     else:
-        req +='POST-запросы не были обнаружены.'
+        req += 'POST-запросы не были обнаружены.'
     print(req)
     return req

@@ -26,7 +26,7 @@ async def start_handler(msg: Message):
 
 @router.message(F.text == "Меню")
 @router.message(F.text == "Выйти в меню")
-@router.message(F.text == "◀️ Выйти в меню")
+@router.message(F.text == "Выйти в меню")
 async def menu(msg: Message):
     await msg.answer(config.menu, reply_markup=kb.menu)
 
@@ -37,8 +37,13 @@ async def menu(msg: Message):
 @router.callback_query(F.data == "find_schedule")
 async def input_text_prompt(clbck: CallbackQuery, state: FSMContext):
     await state.set_state(Gen.text_prompt)
-    await clbck.message.edit_text(parser.gen_schedule())
+    # TODO Тут он должен читать данные из кеша. Срочно переделать!!!
+    await clbck.message.edit_text("Пока не работает")
     await clbck.message.answer(config.gen_exit, reply_markup=kb.exit_kb)
+
+
+def get_schedule() -> str:
+    pass
 
 
 @router.message(Gen.text_prompt)
