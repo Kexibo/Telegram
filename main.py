@@ -60,6 +60,7 @@ async def async_req_to_schedule() -> None:
 async def run_tasks():
     await asyncio.gather(main(), async_req_to_schedule())
 
+
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
     asyncio.run(run_tasks())

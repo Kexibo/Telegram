@@ -32,17 +32,20 @@ async def find_schedule(clbck: CallbackQuery):
 # Тут типа основная функция работы приложения
 # Нажал хочу расписание, далее выбор группы и запрос
 # Или же сделать для кажого личное указание группы в условных настройках
+# TODO Что бы показывало что бот пишет !!!
 @router.message(F.text == "Инфобез")
 async def get_schedule(msg: Message):
     await msg.answer(get_schedule("infsec"), reply_markup=kb.exit_kb)
+
 
 @router.message(F.text == "Прогер")
 async def get_schedule(msg: Message):
     await msg.answer(get_schedule("prog"), reply_markup=kb.exit_kb)
 
+
 def get_schedule(group) -> str:
     if group == "infsec":
-        with open("data/infsec.txt", "r") as f:
+        with open(config.infsec_file, "r") as f:
             data = f.read()
             if data:
                 return data
@@ -50,10 +53,9 @@ def get_schedule(group) -> str:
                 return "Ошибка. Расписание отсутствует"
 
     elif group == "prog":
-        with open("data/prog.txt", "r") as f:
+        with open(config.progs_file, "r") as f:
             data = f.read()
             if data:
                 return data
             else:
                 return "Ошибка. Расписание отсутствует"
-
